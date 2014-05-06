@@ -16,7 +16,9 @@ file : INDENT stat+ DEDENT EOF;
 block : INDENT stat+ DEDENT;
 stat :  ( expr | print | assign | conditional | whiles | breaks | continues | deffunc | returnst | iterate | input) NEWLINE*;
 	
-print : K_TAN STRLIT;
+print : K_TAN (STRLIT 			{ Xuyu.print($STRLIT.text);}
+	| expr 						{ Xuyu.print($expr.v);}
+	);
 assign : K_YI? expr K_WEI var 
 	| var O_JIN expr 
 	| var O_TUI expr
@@ -33,12 +35,13 @@ returnst : K_DE expr;
 iterate : K_LSHU var NEWLINE+ block;
 input : K_WEN var K_HWEI var (K_DUN var)*;
 
-expr : '£¨' expr '£©'
-	| expr O_JIA expr
-	| expr O_JIAN expr
-	| expr O_CHENG expr
-	| expr O_CHU expr
-	| expr O_YU expr
+expr returns [Xuyu.Value v]
+	: '£¨' expr '£©'			{ $v = $expr.v; }
+	| a=expr O_CHENG b=expr		{ $v = Xuyu.eval($a.v ,$b.v, 2);}
+	| a=expr O_CHU 	b=expr		{ $v = Xuyu.eval($a.v ,$b.v, 3);}
+	| a=expr O_YU 	b=expr		{ $v = Xuyu.eval($a.v ,$b.v, 4);}
+	| a=expr O_JIA 	b=expr 		{ $v = Xuyu.eval($a.v ,$b.v, 0);}
+	| a=expr O_JIAN b=expr		{ $v = Xuyu.eval($a.v ,$b.v, 1);}
 	
 	| expr O_DA expr
 	| expr O_XIAO expr
@@ -51,8 +54,10 @@ expr : '£¨' expr '£©'
 	| expr O_CQU expr
 	| expr O_BYU expr
 	
-	| val;	
-val : CNNUM | CNFRAC | CNBOOL | (var A_ZHI)* var | K_YI (expr (K_DUN expr)*)? K_QIU var;
+	| val 						{ $v = $val.v;};	
+val returns [Xuyu.Value v] 
+	: CNNUM { $v = Xuyu.getInt($CNNUM.text);}
+	| CNFRAC | CNBOOL | (var A_ZHI)* var | K_YI (expr (K_DUN expr)*)? K_QIU var;
 var : CNCHAR+;
 
 //keywords
