@@ -14,7 +14,7 @@ grammar indent;
 
 file : INDENT stat+ DEDENT EOF;
 block : INDENT stat+ DEDENT;
-stat :  ( expr | print | assign | conditional | whiles | breaks | continues | deffunc | returnst) NEWLINE*;
+stat :  ( expr | print | assign | conditional | whiles | breaks | continues | deffunc | returnst | iterate | input) NEWLINE*;
 	
 print : K_TAN STRLIT;
 assign : K_YI? expr K_WEI var 
@@ -30,6 +30,8 @@ breaks : K_ZHI;
 continues : K_FSHI;
 deffunc : K_YI (var (K_DUN var)*)? K_DE var (K_YUE stat | NEWLINE+ block);
 returnst : K_DE expr;
+iterate : K_LSHU var NEWLINE+ block;
+input : K_WEN var K_HWEI var (K_DUN var)*;
 
 expr : '（' expr '）'
 	| expr O_JIA expr
@@ -44,19 +46,25 @@ expr : '（' expr '）'
 	| expr O_BDA expr
 	| expr O_BXIAO expr
 	| expr O_BDENG expr
+	
+	| expr O_BHAN expr
+	| expr O_CQU expr
+	| expr O_BYU expr
+	
 	| val;	
-val : CNNUM | CNFRAC | CNBOOL | var | K_YI (expr (K_DUN expr)*)? K_QIU var;
+val : CNNUM | CNFRAC | CNBOOL | (var A_ZHI)* var | K_YI (expr (K_DUN expr)*)? K_QIU var;
 var : CNCHAR+;
 
 //keywords
 
+K_HWEI : '何为';
 K_YI : [以有];
 K_WEI : '为';
 K_TAN : '叹';
 K_ZHONG : '众';
 K_RUO : '若' | '如若' | '倘若';
-K_ZE : '则';
 K_FZE : '否则';
+K_ZE : '则';
 K_YHUO : '抑或';
 K_MDANG : '每当';
 K_FSHI : '复始';
@@ -65,6 +73,10 @@ K_QIU : '求';
 K_YUE : '曰';
 K_DE : '得';
 K_DUN : '、';
+K_LSHU : '历数';
+K_WEN : '问';
+
+A_ZHI : '之';
 
 O_JIN : '进以';
 O_TUI : '退以';
@@ -83,6 +95,10 @@ O_DENG : '等于';
 O_BDA : '不大于';
 O_BXIAO : '不小于';
 O_BDENG : '不等于';
+
+O_BHAN : '包含';
+O_CQU : '除去';
+O_BYU : '并于';
 
 //lexer
 	
