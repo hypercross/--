@@ -14,33 +14,21 @@ grammar indent;
 
 file : INDENT stat+ DEDENT EOF;
 block : INDENT stat+ DEDENT;
+print : '叹「' '.'* '」'
 
-stat : '以' expr W_WEI WORD NEWLINE+;
 
-expr : W_YI (expr W_JIA expr
-	| expr W_JIAN expr
-	| expr W_CHEN expr
-	| expr W_CHU expr)
-	| WORD;
+stat : [以有]? expr '为' CNWORD NEWLINE+;
 
-//dict
-
-W_YI : '\u4EE5';
-W_JIA : '\u52A0';
-W_JIAN : '\u51CF';
-W_CHEN : '\u4E58';
-W_CHU : '\u9664';
-W_WEI : '\u4E3A';
-	
-// N_JIA : '\u7532';
-// N_YI : '\u4E59';
+expr : CNNUM;
 	
 INDENT : ;
 DEDENT : ;
+COMMENT : '……' '.'*? NEWLINE->skip;
 DENT : [\t ];
-ENG : [a-zA-Z_]+;
-WORD : '\u4E00'..'\u9FFF';
+WORD : [a-zA-Z_]+;
+CNWORD : ('\u4E00'..'\u9FFF')+;
 NUM : [1-9] [0-9]*;
+CNFRAC : (CNNUM '又')? CNNUM '分之' CNNUM;
+CNNUM : [零一二三四五六七八九十百千万亿]+;
 NEWLINE : '\r' ? '\n';
 WS : [ \r\n\t]->skip;
-
