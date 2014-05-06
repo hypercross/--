@@ -44,6 +44,12 @@ public class Xuyu {
 		else if(method == 2)nc.val = na.val * nb.val;
 		else if(method == 3)nc.val = na.val / nb.val;
 		else if(method == 4)nc.val = na.val % nb.val;
+		else if(method == 5)nc.val = na.val > nb.val ? 1 : 0 ;
+		else if(method == 6)nc.val = na.val < nb.val ? 1 : 0 ;
+		else if(method == 7)nc.val = na.val == nb.val ? 1 : 0;
+		else if(method == 8)nc.val = na.val <= nb.val ? 1 : 0;
+		else if(method == 9)nc.val = na.val >= nb.val ? 1 : 0;
+		else if(method == 10)nc.val = na.val != nb.val ? 1 : 0;
 		return nc;
 	}
 	

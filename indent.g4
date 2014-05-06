@@ -43,12 +43,12 @@ expr returns [Xuyu.Value v]
 	| a=expr O_JIA 	b=expr 		{ $v = Xuyu.eval($a.v ,$b.v, 0);}
 	| a=expr O_JIAN b=expr		{ $v = Xuyu.eval($a.v ,$b.v, 1);}
 	
-	| expr O_DA expr
-	| expr O_XIAO expr
-	| expr O_DENG expr
-	| expr O_BDA expr
-	| expr O_BXIAO expr
-	| expr O_BDENG expr
+	| a=expr O_DA b=expr		{ $v = Xuyu.eval($a.v ,$b.v, 5);}
+	| a=expr O_XIAO b=expr		{ $v = Xuyu.eval($a.v ,$b.v, 6);}
+	| a=expr O_DENG b=expr		{ $v = Xuyu.eval($a.v ,$b.v, 7);}
+	| a=expr O_BDA b=expr		{ $v = Xuyu.eval($a.v ,$b.v, 8);}
+	| a=expr O_BXIAO b=expr		{ $v = Xuyu.eval($a.v ,$b.v, 9);}
+	| a=expr O_BDENG b=expr		{ $v = Xuyu.eval($a.v ,$b.v, 10);}
 	
 	| expr O_BHAN expr
 	| expr O_CQU expr
