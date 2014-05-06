@@ -22,7 +22,9 @@ assign : K_YI? expr K_WEI var
 	| var O_TUI expr
 	| var O_JI expr
 	| var O_FEN expr;
-conditional : K_RUO expr K_ZE (stat | NEWLINE+ block);
+conditional : K_RUO expr K_ZE (stat | NEWLINE+ block) 
+	(NEWLINE* K_YHUO expr K_ZE (stat | NEWLINE+ block))*
+	(NEWLINE* K_FZE (stat | NEWLINE+ block))?;
 
 expr : '（' expr '）'
 	| expr O_JIA expr
@@ -49,6 +51,8 @@ K_TAN : '叹';
 K_ZHONG : '众';
 K_RUO : '若' | '如若' | '倘若';
 K_ZE : '则';
+K_FZE : '否则';
+K_YHUO : '抑或';
 
 O_JIN : '进以';
 O_TUI : '退以';
