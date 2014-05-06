@@ -14,7 +14,7 @@ grammar indent;
 
 file : INDENT stat+ DEDENT EOF;
 block : INDENT stat+ DEDENT;
-stat :  ( print | assign ) NEWLINE*;
+stat :  ( print | assign | conditional) NEWLINE*;
 	
 print : K_TAN STRLIT;
 assign : K_YI? expr K_WEI var 
@@ -22,6 +22,7 @@ assign : K_YI? expr K_WEI var
 	| var O_TUI expr
 	| var O_JI expr
 	| var O_FEN expr;
+conditional : K_RUO expr K_ZE (stat | NEWLINE+ block);
 
 expr : '（' expr '）'
 	| expr O_JIA expr
@@ -46,11 +47,13 @@ K_YI : [以有];
 K_WEI : '为';
 K_TAN : '叹';
 K_ZHONG : '众';
+K_RUO : '若' | '如若' | '倘若';
+K_ZE : '则';
 
-O_JIN : '进';
-O_TUI : '退';
-O_JI : '积';
-O_FEN : '分';
+O_JIN : '进以';
+O_TUI : '退以';
+O_JI : '积以';
+O_FEN : '分以';
 
 O_JIA : '加以';
 O_JIAN : '减以';
