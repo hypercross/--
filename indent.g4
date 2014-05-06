@@ -14,7 +14,7 @@ grammar indent;
 
 file : INDENT stat+ DEDENT EOF;
 block : INDENT stat+ DEDENT;
-stat :  ( print | assign | conditional) NEWLINE*;
+stat :  ( print | assign | conditional | whiles | breaks | continues) NEWLINE*;
 	
 print : K_TAN STRLIT;
 assign : K_YI? expr K_WEI var 
@@ -25,6 +25,9 @@ assign : K_YI? expr K_WEI var
 conditional : K_RUO expr K_ZE (stat | NEWLINE+ block) 
 	(NEWLINE* K_YHUO expr K_ZE (stat | NEWLINE+ block))*
 	(NEWLINE* K_FZE (stat | NEWLINE+ block))?;
+whiles : K_MDANG expr K_ZE (stat | NEWLINE+ block);
+breaks : K_ZHI;
+continues : K_FSHI;
 
 expr : '（' expr '）'
 	| expr O_JIA expr
@@ -53,6 +56,9 @@ K_RUO : '若' | '如若' | '倘若';
 K_ZE : '则';
 K_FZE : '否则';
 K_YHUO : '抑或';
+K_MDANG : '每当';
+K_FSHI : '复始';
+K_ZHI : '止';
 
 O_JIN : '进以';
 O_TUI : '退以';
