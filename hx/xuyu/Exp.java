@@ -1,5 +1,7 @@
 package hx.xuyu;
 
+import java.util.ArrayList;
+
 public class Exp {
 
 	public static class IllegalCastException extends RuntimeException{}
@@ -14,6 +16,53 @@ public class Exp {
 		int asInt();
 		boolean asBool();
 		public Value deepCopy();
+	}
+	
+	public static class Lst implements Value{
+		private ArrayList<Value> content = new ArrayList<>();
+
+		public Lst(Value[] vals){
+			for(Value v : vals)content.add(v);
+		}
+		
+		@Override
+		public int asInt() {return content.size();}
+
+		@Override
+		public boolean asBool() {return content.isEmpty();}
+
+		@Override
+		public Value deepCopy() {
+			Lst lst = new Lst(content.toArray(new Value[content.size()]));
+			return lst;
+		}
+	}
+	
+	public static class Prop implements Value{
+		Value val;
+		int i;
+		String prop;
+		
+		public Prop(Value val, int ind){this.val = val; i = ind;}
+		
+		public Prop(Value val, String prop){this.val = val; this.prop = prop;}
+		
+		Value get(){
+			Value got = val.deepCopy();
+			if(prop == null && got instanceof Lst){
+				return ((Lst)got).content.get(i);
+			}throw new IllegalCastException();
+		}
+		
+		@Override
+		public int asInt() { return get().asInt();}
+
+		@Override
+		public boolean asBool() { return get().asBool();}
+
+		@Override
+		public Value deepCopy() {return get().deepCopy();}
+		
 	}
 	
 	public static class Func implements Value{

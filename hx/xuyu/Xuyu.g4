@@ -58,6 +58,10 @@ assign returns [Stat s]
 	| var O_TUI expr			{ $s = Stat.ASSIGN.Inplace($var.text, $expr.v, xuyu.currentBlock(), Exp.Eval.SUB);}
 	| var O_JI expr				{ $s = Stat.ASSIGN.Inplace($var.text, $expr.v, xuyu.currentBlock(), Exp.Eval.MUL);}
 	| var O_FEN expr			{ $s = Stat.ASSIGN.Inplace($var.text, $expr.v, xuyu.currentBlock(), Exp.Eval.DIV);}
+	| K_JU 						{ xuyu.pushVals(); }
+	(expr						{ xuyu.putVal($expr.v);}
+	(K_DUN expr					{ xuyu.putVal($expr.v);}
+	)*)? K_CHENG var			{ $s = new Stat.ASSIGN( $var.text, new Exp.Lst(xuyu.popVals()));}
 	;
 conditional returns [Stat.IF s]
 	: K_RUO expr K_ZE inline	{ $s = new Stat.IF ($expr.v, $inline.b); Stat.IF head = $s; }
@@ -115,7 +119,8 @@ val returns [Exp.Value v]
 	: CNNUM 					{ $v = new Exp.Num(ParserUtil.parseInt($CNNUM.text));}
 	| CNFRAC 
 	| CNBOOL 					{ $v = new Exp.Num( "阳".equals($CNBOOL.text) ? 1 : 0); }
-	| var						{ $v = new Exp.Var($var.text, xuyu.currentBlock());} 
+	| var						{ $v = new Exp.Var($var.text, xuyu.currentBlock());}
+	| a=val K_QI CNNUM			{ $v = new Exp.Prop( $a.v, ParserUtil.parseInt($CNNUM.text) - 1); } 
 	| K_YI						{ xuyu.pushVals(); } 
 	(param=expr					{ xuyu.putVal($param.v);} 
 	(K_DUN param=expr			{ xuyu.putVal($param.v);}
@@ -140,10 +145,12 @@ K_ZHI : '止';
 K_QIU : '求';
 K_YUE : '曰';
 K_DE : '得';
+K_QI : '其';
 K_DUN : '、';
 K_LSHU : '历数';
 K_WEN : '问';
-
+K_JU : '聚';
+K_CHENG : '成';
 A_ZHI : '之';
 
 O_JIN : '进以';
