@@ -1,3 +1,4 @@
+package hx.xuyu;
 import java.util.LinkedList;
 
 import org.antlr.v4.runtime.CommonToken;
@@ -65,6 +66,6 @@ public class LexerIndent {
 	}
 	
 	private void i(String blah){
-		System.out.println(blah);
+		//System.out.println(blah);
 	}
 }
