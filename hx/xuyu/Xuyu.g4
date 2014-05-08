@@ -21,7 +21,8 @@ grammar Xuyu;
 	private XuyuCompiler xuyu = new XuyuCompiler();
 }
 
-file : block EOF				{ $block.b.exec();}
+file returns [Block content]
+	: NEWLINE* block EOF					{ $content = $block.b;}
 	;
 block returns [Block b] 
 	: INDENT 					{ $b = xuyu.pushBlock();}
@@ -82,7 +83,7 @@ iterate : K_LSHU var NEWLINE+ block;
 input : K_WEN var K_HWEI var (K_DUN var)*;
 
 expr returns [Exp.Value v]
-	: '（' expr '）'				{ $v = $expr.v; }
+	: '（' a=expr '）'				{ $v = $a.v; }
 	| a=expr O_CHENG b=expr		{ $v = new Exp.Eval($a.v ,$b.v, Exp.Eval.MUL);}
 	| a=expr O_CHU 	b=expr		{ $v = new Exp.Eval($a.v ,$b.v, Exp.Eval.DIV);}
 	| a=expr O_YU 	b=expr		{ $v = new Exp.Eval($a.v ,$b.v, Exp.Eval.RMD);}
@@ -107,10 +108,11 @@ expr returns [Exp.Value v]
 	| val 						{ $v = $val.v;};	
 val returns [Exp.Value v] 
 	: CNNUM 					{ $v = new Exp.Num(ParserUtil.parseInt($CNNUM.text));}
-	| CNFRAC | CNBOOL 
+	| CNFRAC 
+	| CNBOOL 					{ $v = new Exp.Num( "阳".equals($CNBOOL.text) ? 1 : 0); }
 	| var						{ $v = new Exp.Var($var.text, xuyu.currentBlock());} 
 	| K_YI (expr (K_DUN expr)*)? K_QIU var;
-var : CNCHAR+;
+var : CNCHAR+ | CNNOUN;
 
 //keywords
 
@@ -166,7 +168,7 @@ O_BYU : '并于';
 INDENT : ;
 DEDENT : ;
 
-COMMENT : ('……' .*? NEWLINE)->skip;
+COMMENT : ('……' .*? NEWLINE+)->skip;
 STRLIT : '「' .*? '」';
 
 DENT : [\t ];
@@ -176,8 +178,9 @@ NUM : [1-9] [0-9]*;
 
 CNFRAC : (CNNUM '又')? CNNUM '分之' CNNUM;
 CNNUM : [零一二三四五六七八九十百千万亿]+;
-CNBOOL : [然否];
+CNBOOL : [阴阳];
 CNCHAR : '\u4E00'..'\u9FFF';
+CNNOUN : '【' ~[】]*? '】';
 
 NEWLINE : '\r' ? '\n';
 WS : [ \r\n\t]->skip;

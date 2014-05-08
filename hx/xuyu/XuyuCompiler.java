@@ -7,6 +7,7 @@ public class XuyuCompiler {
 	LinkedList<Block> blocks = new LinkedList<>();
 	LinkedList<Stat> statements = new LinkedList<>();
 	LinkedList<Integer> stc = new LinkedList<>();
+	LinkedList<String> ids = new LinkedList<>();
 	int stchead = 0;
 	
 	public Block pushBlock(){
@@ -42,5 +43,15 @@ public class XuyuCompiler {
 	public void addStat(Stat s){
 		statements.add(s);
 		stchead++;
+	}
+	
+	public void putId(String str){
+		ids.add(str);
+	}
+	
+	public String[] getIds(){
+		String[] result = ids.toArray(new String[ids.size()]);
+		ids.clear();
+		return result;
 	}
 }

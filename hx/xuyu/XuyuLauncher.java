@@ -1,6 +1,8 @@
 package hx.xuyu;
 
 
+import hx.xuyu.XuyuParser.FileContext;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,7 +19,9 @@ public class XuyuLauncher {
 		CommonTokenStream cts = new CommonTokenStream(xl);
 		XuyuParser xp = new XuyuParser(cts);
 		
-		xp.file();
+		FileContext file = xp.file();
+		System.out.println(file.toStringTree(xp));
+		file.content.exec();
 	}
 	
 	public static void main(String[] arg) throws IOException{
