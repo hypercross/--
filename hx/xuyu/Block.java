@@ -1,4 +1,6 @@
 package hx.xuyu;
+import hx.xuyu.Exp.Num;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +18,7 @@ public class Block {
 	}
 	
 	public Exp.Value get(String key){
-		if(!has(key))throw new NotDefinedException();
+		if(!has(key))return new Exp.Num(0);//should throw new NotDefinedException() ? 
 		if(vars.containsKey(key))return vars.get(key);
 		return parent.get(key);
 	}

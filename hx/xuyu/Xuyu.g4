@@ -76,9 +76,14 @@ continues returns [Stat s]
 	: K_FSHI					{ $s = new Stat.CONTINUE();}
 	;
 deffunc returns [Stat s]
-	: K_YI (var (K_DUN var)*)? K_DE var (K_YUE stat | NEWLINE+ block);
-returnst returns [Stat s]  
-	: K_DE expr;
+	: K_YI 	(param=var 			{ xuyu.putId($param.text);}
+	(K_DUN param=var			{ xuyu.putId($param.text);}
+	)*)? K_DE func=var 				
+	K_YUE inline				{ $s = new Stat.ASSIGN( $func.text, new Exp.Func($inline.b, xuyu.getIds()));} 
+	;
+returnst returns [Stat s]  		
+	: K_DE expr					{ $s = new Stat.RETURN( $expr.v); }
+	;
 iterate : K_LSHU var NEWLINE+ block;
 input : K_WEN var K_HWEI var (K_DUN var)*;
 
@@ -111,7 +116,11 @@ val returns [Exp.Value v]
 	| CNFRAC 
 	| CNBOOL 					{ $v = new Exp.Num( "Ñô".equals($CNBOOL.text) ? 1 : 0); }
 	| var						{ $v = new Exp.Var($var.text, xuyu.currentBlock());} 
-	| K_YI (expr (K_DUN expr)*)? K_QIU var;
+	| K_YI						{ xuyu.pushVals(); } 
+	(param=expr					{ xuyu.putVal($param.v);} 
+	(K_DUN param=expr			{ xuyu.putVal($param.v);}
+	)*)? K_QIU func=var			{ $v = new Exp.Call(new Exp.Var($func.text, xuyu.currentBlock()), xuyu.popVals());}				
+	;
 var : CNCHAR+ | CNNOUN;
 
 //keywords

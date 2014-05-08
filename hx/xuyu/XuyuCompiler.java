@@ -8,6 +8,8 @@ public class XuyuCompiler {
 	LinkedList<Stat> statements = new LinkedList<>();
 	LinkedList<Integer> stc = new LinkedList<>();
 	LinkedList<String> ids = new LinkedList<>();
+//	LinkedList<Exp.Value> values = new LinkedList<>();
+	LinkedList<LinkedList<Exp.Value>> values = new LinkedList<>();
 	int stchead = 0;
 	
 	public Block pushBlock(){
@@ -52,6 +54,20 @@ public class XuyuCompiler {
 	public String[] getIds(){
 		String[] result = ids.toArray(new String[ids.size()]);
 		ids.clear();
+		return result;
+	}
+	
+	public void pushVals(){
+		values.add(new LinkedList<Exp.Value>());
+	}
+	
+	public void putVal(Exp.Value value){
+		values.getLast().add(value);
+	}
+	
+	public Exp.Value[] popVals(){
+		Exp.Value[] result = values.getLast().toArray(new Exp.Value[values.getLast().size()]);
+		values.removeLast();
 		return result;
 	}
 }

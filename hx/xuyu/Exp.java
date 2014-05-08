@@ -65,6 +65,7 @@ public class Exp {
 		Value get(){
 			try{
 				Func func = (Func) f.context.get(f.name);
+//				System.out.println("calling " + this);
 				return func.call(params); 
 			}catch(ClassCastException e){
 				throw new IllegalCastException();
@@ -79,6 +80,13 @@ public class Exp {
 
 		@Override
 		public Value deepCopy() {return get().deepCopy();}
+		
+		@Override public String toString(){
+			StringBuilder sb = new StringBuilder();
+			sb.append(f.name + "(");
+			for(Value v : params)sb.append(v + ",");
+			return sb.toString() + ")";
+		}
 	}
 	
 	public static class Num implements Value{
