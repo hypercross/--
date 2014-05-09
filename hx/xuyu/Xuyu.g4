@@ -43,13 +43,13 @@ stat returns [Stat s]
 	| continues 				{ $s = $continues.s; }
 	| deffunc 					{ $s = $deffunc.s; }
 	| returnst 					{ $s = $returnst.s; }
-	| iterate 					
+	| iterate					{ $s = $iterate.s; } 					
 	| input
 	) NEWLINE*
 	;
 	
 print returns [Stat s]
-	: K_YYUN (STRLIT 			{ $s = new Stat.PRINT($STRLIT.text);}
+	: K_YAN (STRLIT 			{ $s = new Stat.PRINT($STRLIT.text);}
 	| expr 						{ $s = new Stat.PRINT($expr.v);}
 	);
 assign returns [Stat s]
@@ -88,7 +88,10 @@ deffunc returns [Stat s]
 returnst returns [Stat s]  		
 	: K_DE expr					{ $s = new Stat.RETURN( $expr.v); }
 	;
-iterate : K_LSHU var NEWLINE+ block;
+iterate returns [Stat s]
+	: K_JU2 var K_YZHU expr
+	NEWLINE+ block				{ $s = new Stat.ITERATE($var.text, $expr.v , $block.b ); }
+	;
 input : K_WEN var K_HWEI var (K_DUN var)*;
 
 expr returns [Exp.Value v]
@@ -133,7 +136,7 @@ var : CNCHAR+ | CNNOUN;
 K_HWEI : '何为';
 K_YI : [以有];
 K_WEI : '为';
-K_YYUN : '有云';
+K_YAN : '言';
 K_ZHONG : '众';
 K_RUO : '若' | '如若' | '倘若';
 K_FZE : '否则';
@@ -147,7 +150,8 @@ K_YUE : '曰';
 K_DE : '得';
 K_QI : '其';
 K_DUN : '、';
-K_LSHU : '历数';
+K_JU2 : '举';
+K_YZHU : '于诸';
 K_WEN : '问';
 K_JU : '聚';
 K_CHENG : '成';
@@ -184,7 +188,7 @@ O_BYU : '并于';
 INDENT : ;
 DEDENT : ;
 
-COMMENT : ('……' .*? NEWLINE+)->skip;
+COMMENT : (DENT* '……' .*? NEWLINE+)->skip;
 STRLIT : '「' .*? '」';
 
 DENT : [\t ];

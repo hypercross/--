@@ -119,6 +119,34 @@ public interface Stat {
 		
 	}
 	
+	public static class ITERATE implements Stat{
+		Block block;
+		Exp.Value value;
+		String iterator;
+		
+		public ITERATE(String iterator, Exp.Value value, Block block){
+			this.block = block;
+			this.value = value;
+			this.iterator = iterator;
+		}
+		
+		@Override
+		public void exec(Block context) {
+			Exp.Lst lst ;
+			try{
+				lst = (Exp.Lst)(this.value.deepCopy());
+			}catch(RuntimeException e){
+				throw new Exp.IllegalCastException();
+			}
+			
+			for(Value v : lst.asList()){
+				block.set(iterator, v);
+				block.exec();
+			}
+		}
+		
+	}
+	
 	public static class EXP implements Stat{
 		Exp.Value value;
 		public EXP(Exp.Value exp){

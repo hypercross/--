@@ -26,22 +26,22 @@ public class LexerIndent {
 		
 		if(t.getType() == empty){			
 			if(currentDent >= 0)currentDent ++;
-			i(0 + " " + currentDent);
+			i("ext" + " " + currentDent);
 			return null;
 		}else if(t.getType() == linebreak){			
 			pending.offer(t);
-			i(1 + " " + currentDent);
+			i("br" + " " + currentDent);
 			currentDent = 0;
 			return pending.poll();
 		}else if(t.getType() == eof){
 			updateDents(-1);
 			pending.offer(t);
-			i(-1);
+			i("eof");
 			return pending.poll();
 		}else {
 			if(currentDent >= 0)updateDents(currentDent);
 			pending.offer(t);
-			i(2 + " " + currentDent);
+			i("update" + " " + currentDent);
 			currentDent = -1;
 			return pending.poll();
 		}
@@ -66,6 +66,6 @@ public class LexerIndent {
 	}
 	
 	private void i(String blah){
-		//System.out.println(blah);
+//		System.out.println(blah);
 	}
 }

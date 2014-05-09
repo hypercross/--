@@ -1,6 +1,7 @@
 package hx.xuyu;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Exp {
 
@@ -31,6 +32,8 @@ public class Exp {
 		@Override
 		public boolean asBool() {return content.isEmpty();}
 
+		public List<Value> asList(){ return content;}
+		
 		@Override
 		public Value deepCopy() {
 			Lst lst = new Lst(content.toArray(new Value[content.size()]));
