@@ -165,15 +165,18 @@ public interface Stat {
 
 		String id;
 		Block def;
+		Value parent;
 		
-		public DEFOBJ(String id, Block def){
+		public DEFOBJ(String id, Block def, Value parent){
 			this.id = id;
 			this.def = def;
+			this.parent = parent;
 		}
 		
 		@Override
 		public void exec(Block context) {
 			def.exec();
+			if(parent != null)def.parent = ((Exp.Object)parent.deepCopy()).def;
 			context.set(id, new Exp.Object(def));
 		}
 		

@@ -88,8 +88,9 @@ deffunc returns [Stat s]
 	K_YUE inline				{ $s = new Stat.ASSIGN( $func.text, new Exp.Func($inline.b, xuyu.getIds()));} 
 	;
 defobj returns [Stat s]
-	: a=var K_PIAN 
-	NEWLINE+ b=block			{ $s = new Stat.DEFOBJ( $a.text, $b.b);}
+	: a=var K_PIAN 				
+	( K_XU c=var K_PIAN) ? 				
+	NEWLINE+ b=block			{ $s = new Stat.DEFOBJ( $a.text, $b.b, $c.text == null ? null : new Exp.Var( $c.text, xuyu.currentBlock()));}
 	;
 returnst returns [Stat s]  		
 	: K_DE expr					{ $s = new Stat.RETURN( $expr.v); }
@@ -165,6 +166,7 @@ K_JU : '聚';
 K_CHENG : '成';
 A_ZHI : '之';
 K_PIAN : '篇';
+K_XU : '续';
 
 O_JIN : '进以';
 O_TUI : '退以';
