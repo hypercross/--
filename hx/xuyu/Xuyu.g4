@@ -34,16 +34,18 @@ inline returns [Block b]
 	| NEWLINE+ block			{ $b = $block.b;}
 	;
 stat returns [Stat s] 
-	:  (expr 					{ $s = new Stat.EXP( $expr.v); }
-	| print 					{ $s = $print.s; }
+	:  
+	( print 					{ $s = $print.s; }
 	| assign 					{ $s = $assign.s; }
 	| conditional 				{ $s = $conditional.s; }
 	| whiles 					{ $s = $whiles.s; }
 	| breaks 					{ $s = $breaks.s; }
 	| continues 				{ $s = $continues.s; }
 	| deffunc 					{ $s = $deffunc.s; }
+	| defobj					{ $s = $defobj.s;}
 	| returnst 					{ $s = $returnst.s; }
-	| iterate					{ $s = $iterate.s; } 					
+	| iterate					{ $s = $iterate.s; }
+	| expr 						{ $s = new Stat.EXP( $expr.v); } 					
 	| input
 	) NEWLINE*
 	;
@@ -85,6 +87,10 @@ deffunc returns [Stat s]
 	)*)? K_DE func=var 				
 	K_YUE inline				{ $s = new Stat.ASSIGN( $func.text, new Exp.Func($inline.b, xuyu.getIds()));} 
 	;
+defobj returns [Stat s]
+	: a=var K_PIAN 
+	NEWLINE+ b=block			{ $s = new Stat.DEFOBJ( $a.text, $b.b);}
+	;
 returnst returns [Stat s]  		
 	: K_DE expr					{ $s = new Stat.RETURN( $expr.v); }
 	;
@@ -113,9 +119,10 @@ expr returns [Exp.Value v]
 	| a=expr O_HUO b=expr		{ $v = new Exp.Eval($a.v ,$b.v, Exp.Eval.OR);}
 	| O_FEI a=expr				{ $v = new Exp.Eval($a.v ,null, Exp.Eval.NOT);}
 	
-	| expr O_BHAN expr
-	| expr O_CQU expr
-	| expr O_BYU expr
+	| a=expr O_BHAN b=expr			{ $v = new Exp.Eval($b.v,$a.v, Exp.Eval.ISIN);}
+	| a=expr O_JZI b=expr			{ $v = new Exp.Eval($a.v,$b.v, Exp.Eval.CUTL);}
+	| a=expr O_JZHI b=expr			{ $v = new Exp.Eval($a.v,$b.v, Exp.Eval.CUTR);}
+	| a=expr O_BRU b=expr			{ $v = new Exp.Eval($a.v,$b.v, Exp.Eval.JOIN);}
 	
 	| val 						{ $v = $val.v;};	
 val returns [Exp.Value v] 
@@ -123,7 +130,8 @@ val returns [Exp.Value v]
 	| CNFRAC 
 	| CNBOOL 					{ $v = new Exp.Num( "阳".equals($CNBOOL.text) ? 1 : 0); }
 	| var						{ $v = new Exp.Var($var.text, xuyu.currentBlock());}
-	| a=val K_QI CNNUM			{ $v = new Exp.Prop( $a.v, ParserUtil.parseInt($CNNUM.text) - 1); } 
+	| a=val K_QI CNNUM			{ $v = new Exp.Index( $a.v, ParserUtil.parseInt($CNNUM.text) - 1); }
+	| a=val A_ZHI b=var 		{ $v = new Exp.Var($b.text, $a.v); } 
 	| K_YI						{ xuyu.pushVals(); } 
 	(param=expr					{ xuyu.putVal($param.v);} 
 	(K_DUN param=expr			{ xuyu.putVal($param.v);}
@@ -156,6 +164,7 @@ K_WEN : '问';
 K_JU : '聚';
 K_CHENG : '成';
 A_ZHI : '之';
+K_PIAN : '篇';
 
 O_JIN : '进以';
 O_TUI : '退以';
@@ -180,8 +189,9 @@ O_HUO : '或';
 O_FEI : '非';
 
 O_BHAN : '包含';
-O_CQU : '除去';
-O_BYU : '并于';
+O_JZI : '截自';
+O_JZHI : '截至';
+O_BRU : '并入';
 
 //lexer
 	

@@ -1,5 +1,8 @@
 package hx.xuyu;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import hx.xuyu.Exp.Eval;
 import hx.xuyu.Exp.Value;
 import hx.xuyu.Exp.Var;
@@ -156,5 +159,23 @@ public interface Stat {
 		public void exec(Block context) {
 			value.deepCopy();
 		}
+	}
+	
+	public static class DEFOBJ implements Stat{
+
+		String id;
+		Block def;
+		
+		public DEFOBJ(String id, Block def){
+			this.id = id;
+			this.def = def;
+		}
+		
+		@Override
+		public void exec(Block context) {
+			def.exec();
+			context.set(id, new Exp.Object(def));
+		}
+		
 	}
 }

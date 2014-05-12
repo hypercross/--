@@ -22,17 +22,6 @@ public interface XuyuListener extends ParseTreeListener {
 	void exitVal(@NotNull XuyuParser.ValContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link XuyuParser#assign}.
-	 * @param ctx the parse tree
-	 */
-	void enterAssign(@NotNull XuyuParser.AssignContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link XuyuParser#assign}.
-	 * @param ctx the parse tree
-	 */
-	void exitAssign(@NotNull XuyuParser.AssignContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link XuyuParser#returnst}.
 	 * @param ctx the parse tree
 	 */
@@ -42,6 +31,17 @@ public interface XuyuListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitReturnst(@NotNull XuyuParser.ReturnstContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link XuyuParser#assign}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssign(@NotNull XuyuParser.AssignContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link XuyuParser#assign}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssign(@NotNull XuyuParser.AssignContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link XuyuParser#var}.
@@ -130,6 +130,17 @@ public interface XuyuListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInput(@NotNull XuyuParser.InputContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link XuyuParser#defobj}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefobj(@NotNull XuyuParser.DefobjContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link XuyuParser#defobj}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefobj(@NotNull XuyuParser.DefobjContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link XuyuParser#file}.

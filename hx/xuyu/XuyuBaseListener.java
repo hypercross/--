@@ -32,19 +32,6 @@ public class XuyuBaseListener implements XuyuListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssign(@NotNull XuyuParser.AssignContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssign(@NotNull XuyuParser.AssignContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterReturnst(@NotNull XuyuParser.ReturnstContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -52,6 +39,19 @@ public class XuyuBaseListener implements XuyuListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitReturnst(@NotNull XuyuParser.ReturnstContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAssign(@NotNull XuyuParser.AssignContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAssign(@NotNull XuyuParser.AssignContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -156,6 +156,19 @@ public class XuyuBaseListener implements XuyuListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitInput(@NotNull XuyuParser.InputContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDefobj(@NotNull XuyuParser.DefobjContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDefobj(@NotNull XuyuParser.DefobjContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

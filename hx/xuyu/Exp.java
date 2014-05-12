@@ -1,7 +1,9 @@
 package hx.xuyu;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Exp {
 
@@ -16,7 +18,23 @@ public class Exp {
 	public static interface Value{
 		int asInt();
 		boolean asBool();
+		List<Value> asList();
 		public Value deepCopy();
+	}
+	
+	public static class Object implements Value{
+
+		public Block def;
+		
+		public Object(Block b){
+			def = b;
+		}
+		
+		@Override public int asInt() {throw new IllegalCastException();}
+		@Override public boolean asBool() {throw new IllegalCastException();}
+		@Override public List<Value> asList() {throw new IllegalCastException();}
+		@Override public Value deepCopy(){ return this;}
+		
 	}
 	
 	public static class Lst implements Value{
@@ -26,45 +44,45 @@ public class Exp {
 			for(Value v : vals)content.add(v);
 		}
 		
-		@Override
-		public int asInt() {return content.size();}
+		@Override public int asInt() {return content.size();}
 
-		@Override
-		public boolean asBool() {return content.isEmpty();}
+		@Override public boolean asBool() {return content.isEmpty();}
 
-		public List<Value> asList(){ return content;}
+		@Override public List<Value> asList(){ return content;}
 		
-		@Override
-		public Value deepCopy() {
+		@Override public Value deepCopy() {
 			Lst lst = new Lst(content.toArray(new Value[content.size()]));
 			return lst;
 		}
 	}
 	
-	public static class Prop implements Value{
+	public static class Index implements Value{
 		Value val;
 		int i;
-		String prop;
 		
-		public Prop(Value val, int ind){this.val = val; i = ind;}
-		
-		public Prop(Value val, String prop){this.val = val; this.prop = prop;}
+		public Index(Value val, int ind){this.val = val; i = ind;}
 		
 		Value get(){
 			Value got = val.deepCopy();
-			if(prop == null && got instanceof Lst){
+			if(got instanceof Lst){
 				return ((Lst)got).content.get(i);
 			}throw new IllegalCastException();
 		}
 		
-		@Override
-		public int asInt() { return get().asInt();}
+		public void set(Value v){
+			Value got = val.deepCopy();
+			if(got instanceof Lst){
+				((Lst)got).content.set(i, v);
+			}else throw new IllegalCastException();
+		}
+		
+		@Override public int asInt() { return get().asInt();}
 
-		@Override
-		public boolean asBool() { return get().asBool();}
+		@Override public boolean asBool() { return get().asBool();}
+		
+		@Override public List<Value> asList(){ return get().asList();}
 
-		@Override
-		public Value deepCopy() {return get().deepCopy();}
+		@Override public Value deepCopy() {return get().deepCopy();}
 		
 	}
 	
@@ -94,14 +112,13 @@ public class Exp {
 			return ret;
 		}
 
-		@Override
-		public int asInt() { throw new IllegalCastException();}
+		@Override public int asInt() { throw new IllegalCastException();}
 
-		@Override
-		public boolean asBool() {throw new IllegalCastException();}
+		@Override public boolean asBool() {throw new IllegalCastException();}
 
-		@Override
-		public Value deepCopy() {return this;}
+		@Override public Value deepCopy() {return this;}
+		
+		@Override public List<Value> asList() { throw new IllegalCastException();}
 		
 	}
 	
@@ -133,6 +150,9 @@ public class Exp {
 		@Override
 		public Value deepCopy() {return get().deepCopy();}
 		
+		@Override 
+		public List<Value> asList(){throw new IllegalCastException();}
+		
 		@Override public String toString(){
 			StringBuilder sb = new StringBuilder();
 			sb.append(f.name + "(");
@@ -155,18 +175,31 @@ public class Exp {
 		@Override public Value deepCopy() {return new Num(value);}
 		
 		@Override public String toString(){return ParserUtil.fromInt(value);}
+		
+		@Override 
+		public List<Value> asList(){throw new IllegalCastException();}
 	}
 	
 	public static class Var implements Value{
 		String name;
 		Block context;
+		Value obj;
 		
 		public Var(String name, Block context){
 			this.name = name;
 			this.context = context;
 		}
 		
-		private Value value(){ return context.get(name);}
+		public Var(String name, Value obj){
+			this.name = name;
+			this.obj = obj;
+		}
+		
+		private void updateContext(){
+			if(obj != null)context = ((Object)obj.deepCopy()).def;
+		}
+		
+		private Value value(){ updateContext(); return context.get(name);}
 		
 		@Override public int asInt() {return value().asInt();}
 
@@ -175,6 +208,9 @@ public class Exp {
 		@Override public Value deepCopy() {return value().deepCopy();}
 		
 		@Override public String toString(){return value().toString();}
+		
+		@Override 
+		public List<Value> asList(){ return value().asList();}
 	}
 	
 	public static class Eval implements Value{
@@ -183,6 +219,7 @@ public class Exp {
 		public static int MUL = 2;
 		public static int DIV = 3;
 		public static int RMD = 4;
+		
 		public static int GT = 5;
 		public static int LT = 6;
 		public static int NGT = 7;
@@ -192,6 +229,12 @@ public class Exp {
 		public static int AND = 11;
 		public static int OR = 12;
 		public static int NOT = 13;
+		
+		public static int ISIN = 14;
+		public static int JOIN = 15;
+		public static int CUTR = 16;
+		public static int CUTL = 17;
+		
 		public static String opchars = "+ - * / % > < <=>===!=&&||! ";
 		
 		Value a, b;
@@ -222,10 +265,43 @@ public class Exp {
 			else if(opcode == AND)return a.asBool() && b.asBool();
 			else if(opcode == OR)return a.asBool() || b.asBool();
 			else if(opcode == NOT)return !a.asBool();
+			else if(opcode == ISIN){
+				for(Value v : b.asList())if(v.asInt() == a.asInt())return true;
+				return false;
+			}
+			throw new IllegalCastException();
+		}
+		
+		@Override 
+		public List<Value> asList(){
+			if(opcode == ADD){
+				List<Value> la = a.asList();
+				la.add(b.deepCopy());
+				return la;
+			}
+			else if(opcode == JOIN){
+				List<Value> l = new ArrayList<Value>(a.asList());
+				l.addAll(b.asList());
+				return l;
+			}else if(opcode == CUTR){
+				List<Value> l = new ArrayList<Value>();
+				List<Value> o = a.asList();
+				for(int i = 0; i < b.asInt();i++)l.add(o.get(i));
+				return l;
+			}else if(opcode == CUTL){
+				List<Value> l = new ArrayList<Value>();
+				List<Value> o = a.asList();
+				for(int i = b.asInt()-1;i < o.size(); i++)l.add(o.get(i));
+				return l;
+			}
 			throw new IllegalCastException();
 		}
 
 		@Override public Value deepCopy() {
+			try{
+				List<Value> vals = asList();
+				return new Lst(vals.toArray(new Value[vals.size()]));
+			}catch(IllegalCastException e){}
 			try{
 				int i = asInt();
 				return new Num(i);
@@ -238,6 +314,8 @@ public class Exp {
 		}
 		
 		@Override public String toString(){return a.toString() + " " + opchars.substring(opcode*2, opcode*2+2) + " " + b.toString();}
+		
+		
 	}
 	
 	private Exp(){};
