@@ -45,6 +45,7 @@ stat returns [Stat s]
 	| defobj					{ $s = $defobj.s;}
 	| returnst 					{ $s = $returnst.s; }
 	| iterate					{ $s = $iterate.s; }
+	| declare					{ $s = $declare.s; }
 	| expr 						{ $s = new Stat.EXP( $expr.v); } 					
 	| input
 	) NEWLINE*
@@ -55,15 +56,15 @@ print returns [Stat s]
 	| expr 						{ $s = new Stat.PRINT($expr.v);}
 	);
 assign returns [Stat s]
-	: K_YI? expr K_WEI var		{ $s = new Stat.ASSIGN( $var.text, $expr.v);} 
-	| var O_JIN expr 			{ $s = Stat.ASSIGN.Inplace($var.text, $expr.v, xuyu.currentBlock(), Exp.Eval.ADD);}
-	| var O_TUI expr			{ $s = Stat.ASSIGN.Inplace($var.text, $expr.v, xuyu.currentBlock(), Exp.Eval.SUB);}
-	| var O_JI expr				{ $s = Stat.ASSIGN.Inplace($var.text, $expr.v, xuyu.currentBlock(), Exp.Eval.MUL);}
-	| var O_FEN expr			{ $s = Stat.ASSIGN.Inplace($var.text, $expr.v, xuyu.currentBlock(), Exp.Eval.DIV);}
+	: K_YI? expr K_WEI val		{ $s = new Stat.SETPROP( $val.v, $expr.v);} 
+	| val O_JIN expr 			{ $s = new Stat.SETPROP( $val.v, new Exp.Eval($val.v, $expr.v, Exp.Eval.ADD));}
+	| val O_TUI expr			{ $s = new Stat.SETPROP( $val.v, new Exp.Eval($val.v, $expr.v, Exp.Eval.SUB));}
+	| val O_JI expr				{ $s = new Stat.SETPROP( $val.v, new Exp.Eval($val.v, $expr.v, Exp.Eval.MUL));}
+	| val O_FEN expr			{ $s = new Stat.SETPROP( $val.v, new Exp.Eval($val.v, $expr.v, Exp.Eval.DIV));}
 	| K_JU 						{ xuyu.pushVals(); }
 	(expr						{ xuyu.putVal($expr.v);}
 	(K_DUN expr					{ xuyu.putVal($expr.v);}
-	)*)? K_CHENG var			{ $s = new Stat.ASSIGN( $var.text, new Exp.Lst(xuyu.popVals()));}
+	)*)? K_CHENG val			{ $s = new Stat.SETPROP( $val.v, new Exp.Lst(xuyu.popVals()));}
 	;
 conditional returns [Stat.IF s]
 	: K_RUO expr K_ZE inline	{ $s = new Stat.IF ($expr.v, $inline.b); Stat.IF head = $s; }
@@ -100,6 +101,10 @@ iterate returns [Stat s]
 	NEWLINE+ block				{ $s = new Stat.ITERATE($var.text, $expr.v , $block.b ); }
 	;
 input : K_WEN var K_HWEI var (K_DUN var)*;
+
+declare returns [Stat s]
+	: K_YYOU var				{ $s = new Stat.DEFLOC( $var.text);}
+	;
 
 expr returns [Exp.Value v]
 	: '（' a=expr '）'				{ $v = $a.v; }
@@ -167,6 +172,7 @@ K_CHENG : '成';
 A_ZHI : '之';
 K_PIAN : '篇';
 K_XU : '续';
+K_YYOU : '又有';
 
 O_JIN : '进以';
 O_TUI : '退以';

@@ -110,6 +110,17 @@ public interface XuyuListener extends ParseTreeListener {
 	void exitPrint(@NotNull XuyuParser.PrintContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link XuyuParser#declare}.
+	 * @param ctx the parse tree
+	 */
+	void enterDeclare(@NotNull XuyuParser.DeclareContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link XuyuParser#declare}.
+	 * @param ctx the parse tree
+	 */
+	void exitDeclare(@NotNull XuyuParser.DeclareContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link XuyuParser#iterate}.
 	 * @param ctx the parse tree
 	 */

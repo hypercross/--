@@ -30,6 +30,11 @@ public class Block {
 		else parent.set(key, value);
 	}
 	
+	public void setLocal(String key, Exp.Value value){
+		value = value.deepCopy();
+		vars.put(key, value);
+	}
+	
 	public boolean has(String key){
 		if(vars.containsKey(key))return true;
 		if(parent == null)return false;

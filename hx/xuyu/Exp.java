@@ -98,7 +98,7 @@ public class Exp {
 		public Value call(Value[] values){
 			Block stack = new Block(block.parent);
 			for(int i = 0; i < params.length;i++)
-				stack.vars.put(params[i], values[i]);
+				stack.setLocal(params[i], values[i]);
 			block.parent = stack;
 			
 			Value ret = new Num(0);
@@ -195,11 +195,11 @@ public class Exp {
 			this.obj = obj;
 		}
 		
-		private void updateContext(){
+		public void updateContext(){
 			if(obj != null)context = ((Object)obj.deepCopy()).def;
 		}
 		
-		private Value value(){ updateContext(); return context.get(name);}
+		public Value value(){ updateContext(); return context.get(name);}
 		
 		@Override public int asInt() {return value().asInt();}
 

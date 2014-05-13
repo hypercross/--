@@ -1,9 +1,11 @@
 package hx.xuyu;
 
+import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import hx.xuyu.Exp.Eval;
+import hx.xuyu.Exp.Object;
 import hx.xuyu.Exp.Value;
 import hx.xuyu.Exp.Var;
 
@@ -15,6 +17,7 @@ public interface Stat {
 	public static class ContinueException extends RuntimeException{};
 	
 	public static class PRINT implements Stat{
+		public static PrintStream os = System.out;
 		String content;
 		Exp.Value v;
 		
@@ -30,7 +33,7 @@ public interface Stat {
 		@Override
 		public void exec(Block context) {
 			if(v != null)content = v.deepCopy().toString();
-			System.out.print(content);
+			os.print(content);
 		}
 		
 	}
@@ -89,6 +92,28 @@ public interface Stat {
 		@Override public void exec(Block context){
 			throw new ContinueException();
 		}
+	}
+	
+	public static class SETPROP implements Stat{
+		Exp.Value ref;
+		Exp.Value val;
+		public SETPROP(Exp.Value ref, Exp.Value val){
+			this.ref = ref;
+			this.val = val;
+		}
+		@Override
+		public void exec(Block context) {
+			if(ref instanceof Exp.Var){
+				Exp.Var var = (Exp.Var) ref;
+				var.updateContext();
+				context = var.context;
+				context.set(var.name, val.deepCopy());
+			}else if(ref instanceof Exp.Index){
+				Exp.Index index = (Exp.Index)ref;
+				index.val.asList().set(index.i, val.deepCopy());
+			}else throw new Exp.IllegalCastException();
+		}
+		
 	}
 	
 	public static class ASSIGN implements Stat{
@@ -151,7 +176,7 @@ public interface Stat {
 			}
 			
 			for(Value v : lst.asList()){
-				block.set(iterator, v);
+				block.setLocal(iterator, v);
 				block.exec();
 			}
 		}
@@ -197,8 +222,8 @@ public interface Stat {
 		}
 		@Override
 		public void exec(Block context) {
-			if(!context.vars.containsKey(id))
-				context.vars.put(id, new Exp.Num(0));
+//			if(context.has(id))context.vars.put(id, context.get(id));
+			context.setLocal(id, new Exp.Num(0));
 		}
 	}
 }

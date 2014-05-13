@@ -136,6 +136,19 @@ public class XuyuBaseListener implements XuyuListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDeclare(@NotNull XuyuParser.DeclareContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDeclare(@NotNull XuyuParser.DeclareContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterIterate(@NotNull XuyuParser.IterateContext ctx) { }
 	/**
 	 * {@inheritDoc}
