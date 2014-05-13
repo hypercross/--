@@ -98,7 +98,7 @@ public class Exp {
 		public Value call(Value[] values){
 			Block stack = new Block(block.parent);
 			for(int i = 0; i < params.length;i++)
-				stack.set(params[i], values[i]);
+				stack.vars.put(params[i], values[i]);
 			block.parent = stack;
 			
 			Value ret = new Num(0);
@@ -124,16 +124,16 @@ public class Exp {
 	
 	public static class Call implements Value{
 		Value[] params;
-		Var f;
+		Value f;
 
-		public Call(Var f, Value... params){
+		public Call(Value f, Value... params){
 			this.f = f; 
 			this.params = params.clone();
 		}
 		
 		Value get(){
 			try{
-				Func func = (Func) f.context.get(f.name);
+				Func func = (Func) f.deepCopy();
 //				System.out.println("calling " + this);
 				return func.call(params); 
 			}catch(ClassCastException e){
@@ -151,11 +151,11 @@ public class Exp {
 		public Value deepCopy() {return get().deepCopy();}
 		
 		@Override 
-		public List<Value> asList(){throw new IllegalCastException();}
+		public List<Value> asList(){return get().asList();}
 		
 		@Override public String toString(){
 			StringBuilder sb = new StringBuilder();
-			sb.append(f.name + "(");
+//			sb.append(f.name + "(");
 			for(Value v : params)sb.append(v + ",");
 			return sb.toString() + ")";
 		}

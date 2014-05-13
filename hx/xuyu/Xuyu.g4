@@ -30,7 +30,7 @@ block returns [Block b]
 	)+ DEDENT					{ $b = xuyu.popBlock(); }
 	;
 inline returns [Block b]
-	: stat						{ $b = xuyu.pushBlock(); xuyu.addStat( $stat.s); xuyu.popBlock();}
+	: { $b = xuyu.pushBlock();} stat { xuyu.addStat( $stat.s); xuyu.popBlock();}
 	| NEWLINE+ block			{ $b = $block.b;}
 	;
 stat returns [Stat s] 
@@ -136,7 +136,7 @@ val returns [Exp.Value v]
 	| K_YI						{ xuyu.pushVals(); } 
 	(param=expr					{ xuyu.putVal($param.v);} 
 	(K_DUN param=expr			{ xuyu.putVal($param.v);}
-	)*)? K_QIU func=var			{ $v = new Exp.Call(new Exp.Var($func.text, xuyu.currentBlock()), xuyu.popVals());}				
+	)*)? K_QIU func=val			{ $v = new Exp.Call($func.v, xuyu.popVals());}				
 	;
 var : CNCHAR+ | CNNOUN;
 

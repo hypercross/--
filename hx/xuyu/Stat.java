@@ -94,13 +94,21 @@ public interface Stat {
 	public static class ASSIGN implements Stat{
 		String id;
 		Exp.Value value;
+		Block context;
 		public ASSIGN(String id, Value v){
 			this.id = id;
 			this.value = v;
 		}
+		
+		public ASSIGN(String id, Value v, Block context){
+			this(id,v);
+			this.context = context;
+		}
+		
 		@Override
 		public void exec(Block context) {
-			context.set(id, value);
+			if(this.context == null)this.context = context;
+			this.context.set(id, value);
 		}
 		
 		public static ASSIGN Inplace(String id, Value v, Block b, int op){
@@ -180,5 +188,17 @@ public interface Stat {
 			context.set(id, new Exp.Object(def));
 		}
 		
+	}
+	
+	public static class DEFLOC implements Stat{
+		String id;
+		public DEFLOC(String id){
+			this.id = id;
+		}
+		@Override
+		public void exec(Block context) {
+			if(!context.vars.containsKey(id))
+				context.vars.put(id, new Exp.Num(0));
+		}
 	}
 }
