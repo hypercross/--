@@ -90,7 +90,7 @@ deffunc returns [Stat s]
 	;
 defobj returns [Stat s]
 	: a=var K_PIAN 				
-	( K_XU c=var K_PIAN) ? 				
+	( K_XU c=var K_PIAN) ? 
 	NEWLINE+ b=block			{ $s = new Stat.DEFOBJ( $a.text, $b.b, $c.text == null ? null : new Exp.Var( $c.text, xuyu.currentBlock()));}
 	;
 returnst returns [Stat s]  		
@@ -206,7 +206,7 @@ O_BRU : '²¢Èë';
 INDENT : ;
 DEDENT : ;
 
-COMMENT : (DENT* '¡­¡­' .*? NEWLINE+)->skip;
+COMMENT : (DENT* '¡­¡­' ~[\n]* )->skip;
 STRLIT : '¡¸' .*? '¡¹';
 
 DENT : [\t ];
