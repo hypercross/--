@@ -136,7 +136,7 @@ val returns [Exp.Value v]
 	| CNFRAC 
 	| CNBOOL 					{ $v = new Exp.Num( "Ñô".equals($CNBOOL.text) ? 1 : 0); }
 	| var						{ $v = new Exp.Var($var.text, xuyu.currentBlock());}
-	| a=val K_QI CNNUM			{ $v = new Exp.Index( $a.v, ParserUtil.parseInt($CNNUM.text) - 1); }
+	| a=val K_QI i=val			{ $v = new Exp.Index( $a.v, $i.v); }
 	| a=val A_ZHI b=var 		{ $v = new Exp.Var($b.text, $a.v); } 
 	| K_YI						{ xuyu.pushVals(); } 
 	(param=expr					{ xuyu.putVal($param.v);} 

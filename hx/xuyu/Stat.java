@@ -110,7 +110,7 @@ public interface Stat {
 				context.set(var.name, val.deepCopy());
 			}else if(ref instanceof Exp.Index){
 				Exp.Index index = (Exp.Index)ref;
-				index.val.asList().set(index.i, val.deepCopy());
+				index.val.asList().set(index.i.asInt(), val.deepCopy());
 			}else throw new Exp.IllegalCastException();
 		}
 		

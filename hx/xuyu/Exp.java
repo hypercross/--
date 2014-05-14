@@ -58,21 +58,21 @@ public class Exp {
 	
 	public static class Index implements Value{
 		Value val;
-		int i;
+		Value i;
 		
-		public Index(Value val, int ind){this.val = val; i = ind;}
+		public Index(Value val, Value ind){this.val = val; i = ind;}
 		
 		Value get(){
 			Value got = val.deepCopy();
 			if(got instanceof Lst){
-				return ((Lst)got).content.get(i);
+				return ((Lst)got).content.get(i.asInt()-1);
 			}throw new IllegalCastException();
 		}
 		
 		public void set(Value v){
 			Value got = val.deepCopy();
 			if(got instanceof Lst){
-				((Lst)got).content.set(i, v);
+				((Lst)got).content.set(i.asInt()-1, v);
 			}else throw new IllegalCastException();
 		}
 		

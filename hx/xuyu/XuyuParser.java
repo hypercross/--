@@ -1701,12 +1701,16 @@ public class XuyuParser extends Parser {
 		public Token CNNUM;
 		public Token CNBOOL;
 		public VarContext var;
+		public ValContext i;
 		public VarContext b;
-		public ValContext val() {
-			return getRuleContext(ValContext.class,0);
+		public List<ValContext> val() {
+			return getRuleContexts(ValContext.class);
 		}
 		public TerminalNode K_QI() { return getToken(XuyuParser.K_QI, 0); }
 		public TerminalNode CNFRAC() { return getToken(XuyuParser.CNFRAC, 0); }
+		public ValContext val(int i) {
+			return getRuleContext(ValContext.class,i);
+		}
 		public TerminalNode CNBOOL() { return getToken(XuyuParser.CNBOOL, 0); }
 		public TerminalNode K_YI() { return getToken(XuyuParser.K_YI, 0); }
 		public TerminalNode A_ZHI() { return getToken(XuyuParser.A_ZHI, 0); }
@@ -1818,7 +1822,7 @@ public class XuyuParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(435);
+			setState(436);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,28,_ctx);
 			while ( _alt!=2 && _alt!=ATN.INVALID_ALT_NUMBER ) {
@@ -1826,7 +1830,7 @@ public class XuyuParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(433);
+					setState(434);
 					switch ( getInterpreter().adaptivePredict(_input,27,_ctx) ) {
 					case 1:
 						{
@@ -1836,8 +1840,8 @@ public class XuyuParser extends Parser {
 						setState(424);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 						setState(425); match(K_QI);
-						setState(426); ((ValContext)_localctx).CNNUM = match(CNNUM);
-						 ((ValContext)_localctx).v =  new Exp.Index( ((ValContext)_localctx).a.v, ParserUtil.parseInt((((ValContext)_localctx).CNNUM!=null?((ValContext)_localctx).CNNUM.getText():null)) - 1); 
+						setState(426); ((ValContext)_localctx).i = val(4);
+						 ((ValContext)_localctx).v =  new Exp.Index( ((ValContext)_localctx).a.v, ((ValContext)_localctx).i.v); 
 						}
 						break;
 
@@ -1846,17 +1850,17 @@ public class XuyuParser extends Parser {
 						_localctx = new ValContext(_parentctx, _parentState);
 						_localctx.a = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_val);
-						setState(428);
+						setState(429);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(429); match(A_ZHI);
-						setState(430); ((ValContext)_localctx).b = ((ValContext)_localctx).var = var();
+						setState(430); match(A_ZHI);
+						setState(431); ((ValContext)_localctx).b = ((ValContext)_localctx).var = var();
 						 ((ValContext)_localctx).v =  new Exp.Var((((ValContext)_localctx).b!=null?_input.getText(((ValContext)_localctx).b.start,((ValContext)_localctx).b.stop):null), ((ValContext)_localctx).a.v); 
 						}
 						break;
 					}
 					} 
 				}
-				setState(437);
+				setState(438);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,28,_ctx);
 			}
@@ -1898,12 +1902,12 @@ public class XuyuParser extends Parser {
 		enterRule(_localctx, 36, RULE_var);
 		try {
 			int _alt;
-			setState(444);
+			setState(445);
 			switch (_input.LA(1)) {
 			case CNCHAR:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(439); 
+				setState(440); 
 				_errHandler.sync(this);
 				_alt = 1;
 				do {
@@ -1911,14 +1915,14 @@ public class XuyuParser extends Parser {
 					case 1:
 						{
 						{
-						setState(438); match(CNCHAR);
+						setState(439); match(CNCHAR);
 						}
 						}
 						break;
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(441); 
+					setState(442); 
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,29,_ctx);
 				} while ( _alt!=2 && _alt!=ATN.INVALID_ALT_NUMBER );
@@ -1927,7 +1931,7 @@ public class XuyuParser extends Parser {
 			case CNNOUN:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(443); match(CNNOUN);
+				setState(444); match(CNNOUN);
 				}
 				break;
 			default:
@@ -2001,7 +2005,7 @@ public class XuyuParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3B\u01c1\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3B\u01c2\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\3\2\7\2*\n\2\f\2\16\2-\13\2\3\2\3\2\3\2\3\2\3\3\3"+
@@ -2032,35 +2036,35 @@ public class XuyuParser extends Parser {
 		"\n\22\f\22\16\22\u018b\13\22\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3"+
 		"\23\7\23\u0196\n\23\f\23\16\23\u0199\13\23\5\23\u019b\n\23\3\23\3\23\3"+
 		"\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\5\23\u01a9\n\23\3\23"+
-		"\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\7\23\u01b4\n\23\f\23\16\23\u01b7"+
-		"\13\23\3\24\6\24\u01ba\n\24\r\24\16\24\u01bb\3\24\5\24\u01bf\n\24\3\24"+
-		"\2\4\"$\25\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&\2\2\u01ee\2+\3"+
-		"\2\2\2\4\62\3\2\2\2\6J\3\2\2\2\bq\3\2\2\2\ny\3\2\2\2\f\u00b0\3\2\2\2\16"+
-		"\u00b2\3\2\2\2\20\u00d4\3\2\2\2\22\u00da\3\2\2\2\24\u00dd\3\2\2\2\26\u00e0"+
-		"\3\2\2\2\30\u00f4\3\2\2\2\32\u0104\3\2\2\2\34\u0108\3\2\2\2\36\u0114\3"+
-		"\2\2\2 \u011f\3\2\2\2\"\u0130\3\2\2\2$\u01a8\3\2\2\2&\u01be\3\2\2\2(*"+
-		"\7A\2\2)(\3\2\2\2*-\3\2\2\2+)\3\2\2\2+,\3\2\2\2,.\3\2\2\2-+\3\2\2\2./"+
-		"\5\4\3\2/\60\7\2\2\3\60\61\b\2\1\2\61\3\3\2\2\2\62\63\7\65\2\2\63\67\b"+
-		"\3\1\2\64\65\5\b\5\2\65\66\b\3\1\2\668\3\2\2\2\67\64\3\2\2\289\3\2\2\2"+
-		"9\67\3\2\2\29:\3\2\2\2:;\3\2\2\2;<\7\66\2\2<=\b\3\1\2=\5\3\2\2\2>?\b\4"+
-		"\1\2?@\5\b\5\2@A\b\4\1\2AK\3\2\2\2BD\7A\2\2CB\3\2\2\2DE\3\2\2\2EC\3\2"+
-		"\2\2EF\3\2\2\2FG\3\2\2\2GH\5\4\3\2HI\b\4\1\2IK\3\2\2\2J>\3\2\2\2JC\3\2"+
-		"\2\2K\7\3\2\2\2LM\5\n\6\2MN\b\5\1\2Nr\3\2\2\2OP\5\f\7\2PQ\b\5\1\2Qr\3"+
-		"\2\2\2RS\5\16\b\2ST\b\5\1\2Tr\3\2\2\2UV\5\20\t\2VW\b\5\1\2Wr\3\2\2\2X"+
-		"Y\5\22\n\2YZ\b\5\1\2Zr\3\2\2\2[\\\5\24\13\2\\]\b\5\1\2]r\3\2\2\2^_\5\26"+
-		"\f\2_`\b\5\1\2`r\3\2\2\2ab\5\30\r\2bc\b\5\1\2cr\3\2\2\2de\5\32\16\2ef"+
-		"\b\5\1\2fr\3\2\2\2gh\5\34\17\2hi\b\5\1\2ir\3\2\2\2jk\5 \21\2kl\b\5\1\2"+
-		"lr\3\2\2\2mn\5\"\22\2no\b\5\1\2or\3\2\2\2pr\5\36\20\2qL\3\2\2\2qO\3\2"+
-		"\2\2qR\3\2\2\2qU\3\2\2\2qX\3\2\2\2q[\3\2\2\2q^\3\2\2\2qa\3\2\2\2qd\3\2"+
-		"\2\2qg\3\2\2\2qj\3\2\2\2qm\3\2\2\2qp\3\2\2\2rv\3\2\2\2su\7A\2\2ts\3\2"+
-		"\2\2ux\3\2\2\2vt\3\2\2\2vw\3\2\2\2w\t\3\2\2\2xv\3\2\2\2y\177\7\b\2\2z"+
-		"{\78\2\2{\u0080\b\6\1\2|}\5\"\22\2}~\b\6\1\2~\u0080\3\2\2\2\177z\3\2\2"+
-		"\2\177|\3\2\2\2\u0080\13\3\2\2\2\u0081\u0083\7\6\2\2\u0082\u0081\3\2\2"+
-		"\2\u0082\u0083\3\2\2\2\u0083\u0084\3\2\2\2\u0084\u0085\5\"\22\2\u0085"+
-		"\u0086\7\7\2\2\u0086\u0087\5$\23\2\u0087\u0088\b\7\1\2\u0088\u00b1\3\2"+
-		"\2\2\u0089\u008a\5$\23\2\u008a\u008b\7\37\2\2\u008b\u008c\5\"\22\2\u008c"+
-		"\u008d\b\7\1\2\u008d\u00b1\3\2\2\2\u008e\u008f\5$\23\2\u008f\u0090\7 "+
-		"\2\2\u0090\u0091\5\"\22\2\u0091\u0092\b\7\1\2\u0092\u00b1\3\2\2\2\u0093"+
+		"\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23\7\23\u01b5\n\23\f\23\16"+
+		"\23\u01b8\13\23\3\24\6\24\u01bb\n\24\r\24\16\24\u01bc\3\24\5\24\u01c0"+
+		"\n\24\3\24\2\4\"$\25\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&\2\2\u01ef"+
+		"\2+\3\2\2\2\4\62\3\2\2\2\6J\3\2\2\2\bq\3\2\2\2\ny\3\2\2\2\f\u00b0\3\2"+
+		"\2\2\16\u00b2\3\2\2\2\20\u00d4\3\2\2\2\22\u00da\3\2\2\2\24\u00dd\3\2\2"+
+		"\2\26\u00e0\3\2\2\2\30\u00f4\3\2\2\2\32\u0104\3\2\2\2\34\u0108\3\2\2\2"+
+		"\36\u0114\3\2\2\2 \u011f\3\2\2\2\"\u0130\3\2\2\2$\u01a8\3\2\2\2&\u01bf"+
+		"\3\2\2\2(*\7A\2\2)(\3\2\2\2*-\3\2\2\2+)\3\2\2\2+,\3\2\2\2,.\3\2\2\2-+"+
+		"\3\2\2\2./\5\4\3\2/\60\7\2\2\3\60\61\b\2\1\2\61\3\3\2\2\2\62\63\7\65\2"+
+		"\2\63\67\b\3\1\2\64\65\5\b\5\2\65\66\b\3\1\2\668\3\2\2\2\67\64\3\2\2\2"+
+		"89\3\2\2\29\67\3\2\2\29:\3\2\2\2:;\3\2\2\2;<\7\66\2\2<=\b\3\1\2=\5\3\2"+
+		"\2\2>?\b\4\1\2?@\5\b\5\2@A\b\4\1\2AK\3\2\2\2BD\7A\2\2CB\3\2\2\2DE\3\2"+
+		"\2\2EC\3\2\2\2EF\3\2\2\2FG\3\2\2\2GH\5\4\3\2HI\b\4\1\2IK\3\2\2\2J>\3\2"+
+		"\2\2JC\3\2\2\2K\7\3\2\2\2LM\5\n\6\2MN\b\5\1\2Nr\3\2\2\2OP\5\f\7\2PQ\b"+
+		"\5\1\2Qr\3\2\2\2RS\5\16\b\2ST\b\5\1\2Tr\3\2\2\2UV\5\20\t\2VW\b\5\1\2W"+
+		"r\3\2\2\2XY\5\22\n\2YZ\b\5\1\2Zr\3\2\2\2[\\\5\24\13\2\\]\b\5\1\2]r\3\2"+
+		"\2\2^_\5\26\f\2_`\b\5\1\2`r\3\2\2\2ab\5\30\r\2bc\b\5\1\2cr\3\2\2\2de\5"+
+		"\32\16\2ef\b\5\1\2fr\3\2\2\2gh\5\34\17\2hi\b\5\1\2ir\3\2\2\2jk\5 \21\2"+
+		"kl\b\5\1\2lr\3\2\2\2mn\5\"\22\2no\b\5\1\2or\3\2\2\2pr\5\36\20\2qL\3\2"+
+		"\2\2qO\3\2\2\2qR\3\2\2\2qU\3\2\2\2qX\3\2\2\2q[\3\2\2\2q^\3\2\2\2qa\3\2"+
+		"\2\2qd\3\2\2\2qg\3\2\2\2qj\3\2\2\2qm\3\2\2\2qp\3\2\2\2rv\3\2\2\2su\7A"+
+		"\2\2ts\3\2\2\2ux\3\2\2\2vt\3\2\2\2vw\3\2\2\2w\t\3\2\2\2xv\3\2\2\2y\177"+
+		"\7\b\2\2z{\78\2\2{\u0080\b\6\1\2|}\5\"\22\2}~\b\6\1\2~\u0080\3\2\2\2\177"+
+		"z\3\2\2\2\177|\3\2\2\2\u0080\13\3\2\2\2\u0081\u0083\7\6\2\2\u0082\u0081"+
+		"\3\2\2\2\u0082\u0083\3\2\2\2\u0083\u0084\3\2\2\2\u0084\u0085\5\"\22\2"+
+		"\u0085\u0086\7\7\2\2\u0086\u0087\5$\23\2\u0087\u0088\b\7\1\2\u0088\u00b1"+
+		"\3\2\2\2\u0089\u008a\5$\23\2\u008a\u008b\7\37\2\2\u008b\u008c\5\"\22\2"+
+		"\u008c\u008d\b\7\1\2\u008d\u00b1\3\2\2\2\u008e\u008f\5$\23\2\u008f\u0090"+
+		"\7 \2\2\u0090\u0091\5\"\22\2\u0091\u0092\b\7\1\2\u0092\u00b1\3\2\2\2\u0093"+
 		"\u0094\5$\23\2\u0094\u0095\7!\2\2\u0095\u0096\5\"\22\2\u0096\u0097\b\7"+
 		"\1\2\u0097\u00b1\3\2\2\2\u0098\u0099\5$\23\2\u0099\u009a\7\"\2\2\u009a"+
 		"\u009b\5\"\22\2\u009b\u009c\b\7\1\2\u009c\u00b1\3\2\2\2\u009d\u009e\7"+
@@ -2152,16 +2156,17 @@ public class XuyuParser extends Parser {
 		"\u01a9\b\23\1\2\u01a2\u01a9\7<\2\2\u01a3\u01a4\7>\2\2\u01a4\u01a9\b\23"+
 		"\1\2\u01a5\u01a6\5&\24\2\u01a6\u01a7\b\23\1\2\u01a7\u01a9\3\2\2\2\u01a8"+
 		"\u018c\3\2\2\2\u01a8\u01a0\3\2\2\2\u01a8\u01a2\3\2\2\2\u01a8\u01a3\3\2"+
-		"\2\2\u01a8\u01a5\3\2\2\2\u01a9\u01b5\3\2\2\2\u01aa\u01ab\f\5\2\2\u01ab"+
-		"\u01ac\7\24\2\2\u01ac\u01ad\7=\2\2\u01ad\u01b4\b\23\1\2\u01ae\u01af\f"+
-		"\4\2\2\u01af\u01b0\7\33\2\2\u01b0\u01b1\5&\24\2\u01b1\u01b2\b\23\1\2\u01b2"+
-		"\u01b4\3\2\2\2\u01b3\u01aa\3\2\2\2\u01b3\u01ae\3\2\2\2\u01b4\u01b7\3\2"+
-		"\2\2\u01b5\u01b3\3\2\2\2\u01b5\u01b6\3\2\2\2\u01b6%\3\2\2\2\u01b7\u01b5"+
-		"\3\2\2\2\u01b8\u01ba\7?\2\2\u01b9\u01b8\3\2\2\2\u01ba\u01bb\3\2\2\2\u01bb"+
-		"\u01b9\3\2\2\2\u01bb\u01bc\3\2\2\2\u01bc\u01bf\3\2\2\2\u01bd\u01bf\7@"+
-		"\2\2\u01be\u01b9\3\2\2\2\u01be\u01bd\3\2\2\2\u01bf\'\3\2\2\2!+9EJqv\177"+
-		"\u0082\u00a7\u00aa\u00b0\u00ba\u00c5\u00cb\u00d2\u00e9\u00ec\u00fa\u00ff"+
-		"\u010f\u011c\u0130\u0187\u0189\u0197\u019a\u01a8\u01b3\u01b5\u01bb\u01be";
+		"\2\2\u01a8\u01a5\3\2\2\2\u01a9\u01b6\3\2\2\2\u01aa\u01ab\f\5\2\2\u01ab"+
+		"\u01ac\7\24\2\2\u01ac\u01ad\5$\23\6\u01ad\u01ae\b\23\1\2\u01ae\u01b5\3"+
+		"\2\2\2\u01af\u01b0\f\4\2\2\u01b0\u01b1\7\33\2\2\u01b1\u01b2\5&\24\2\u01b2"+
+		"\u01b3\b\23\1\2\u01b3\u01b5\3\2\2\2\u01b4\u01aa\3\2\2\2\u01b4\u01af\3"+
+		"\2\2\2\u01b5\u01b8\3\2\2\2\u01b6\u01b4\3\2\2\2\u01b6\u01b7\3\2\2\2\u01b7"+
+		"%\3\2\2\2\u01b8\u01b6\3\2\2\2\u01b9\u01bb\7?\2\2\u01ba\u01b9\3\2\2\2\u01bb"+
+		"\u01bc\3\2\2\2\u01bc\u01ba\3\2\2\2\u01bc\u01bd\3\2\2\2\u01bd\u01c0\3\2"+
+		"\2\2\u01be\u01c0\7@\2\2\u01bf\u01ba\3\2\2\2\u01bf\u01be\3\2\2\2\u01c0"+
+		"\'\3\2\2\2!+9EJqv\177\u0082\u00a7\u00aa\u00b0\u00ba\u00c5\u00cb\u00d2"+
+		"\u00e9\u00ec\u00fa\u00ff\u010f\u011c\u0130\u0187\u0189\u0197\u019a\u01a8"+
+		"\u01b4\u01b6\u01bc\u01bf";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
