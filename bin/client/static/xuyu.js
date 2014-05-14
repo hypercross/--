@@ -23,7 +23,7 @@ $.fn.insertAtCaret = function(toinsert){
 $( document ).ready(function(){
 	$(".btn").click(function(){
 		$.ajax({
-			url: "run?source=" + $("textarea").val(),
+			url: "run?source=" + $("textarea").val().replace(/\n/g, '%0A')
 		}).done(function(data){
 			$(".jumbotron").html(data.replace(/\n/g, '<br>'));
 		});

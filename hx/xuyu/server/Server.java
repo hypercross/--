@@ -67,7 +67,6 @@ public class Server extends Verticle {
 				e.printStackTrace(ps);
 				request.response().end(baos.toString(), "utf-8");
 			}
-//			request.response().end();
 		}
     	
     });
