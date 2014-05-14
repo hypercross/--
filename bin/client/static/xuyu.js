@@ -25,7 +25,7 @@ $( document ).ready(function(){
 		$.ajax({
 			url: "run?source=" + $("textarea").val(),
 		}).done(function(data){
-			$(".jumbotron").text(data)
+			$(".jumbotron").html(data.replace(/\n/g, '<br>'));
 		});
 	});
 	
