@@ -1,14 +1,14 @@
 package hx.xuyu;
 public class ParserUtil {
-	private static String nums = "ÁãÒ»¶şÈıËÄÎåÁùÆß°Ë¾Å";
-	private static String bits = "¸öÊ®°ÙÇ§ÍòÒÚ";
+	private static String nums = "é›¶ä¸€äºŒä¸‰å››äº”å…­ä¸ƒå…«ä¹";
+	private static String bits = "ä¸ªåç™¾åƒä¸‡äº¿";
 	public static int parseInt(String str){
 		int s = 0;
 		String current = "";
 		CharSequence zi;
 		for(int i = 0; i < str.length(); i ++){
 			zi = str.subSequence(i, i+1);
-			if(str.charAt(i) == 'Íò'){
+			if(str.charAt(i) == 'ä¸‡'){
 				s+= getVal(current);
 				s = s * 10000;								
 				current = "";
@@ -26,15 +26,15 @@ public class ParserUtil {
 	}
 	
 	public static String fromInt(int thing){
-		if(thing == 0)return "Áã";
+		if(thing == 0)return "é›¶";
 		else return fromInt(thing, false);
 	}
 	
 	public static String fromInt(int thing,boolean prepend){
 		if(thing >= 100000000){
-			return fromInt(thing / 100000000, prepend) +"ÒÚ" + fromInt(thing % 100000000, true);
+			return fromInt(thing / 100000000, prepend) +"äº¿" + fromInt(thing % 100000000, true);
 		}else if(thing >= 10000){
-			return fromInt(thing / 10000, prepend) + "Íò" + fromInt(thing % 10000, true);
+			return fromInt(thing / 10000, prepend) + "ä¸‡" + fromInt(thing % 10000, true);
 		}else{
 			int qian = thing / 1000;
 			int bai = (thing % 1000) / 100;
@@ -43,26 +43,26 @@ public class ParserUtil {
 			String result = "";
 			
 			if(qian > 0){
-				result += nums.substring(qian, qian+1) + "Ç§";
+				result += nums.substring(qian, qian+1) + "åƒ";
 				prepend = true;
 			}
 			else if(prepend){
-				result += "Áã";
+				result += "é›¶";
 				prepend = false;
 			}
 			if(bai > 0){
-				result += nums.substring(bai, bai+1) + "°Ù";
+				result += nums.substring(bai, bai+1) + "ç™¾";
 				prepend = true;
 			}
 			else if(prepend){
-				result += "Áã";
+				result += "é›¶";
 				prepend = false;
 			}
 			if(shi > 0){
-				result += nums.substring(shi, shi+1) + "Ê®";
+				result += nums.substring(shi, shi+1) + "å";
 				prepend = true;
 			}else if(prepend){
-				result += "Áã";
+				result += "é›¶";
 				prepend = false;
 			}
 			if(ge > 0)result += nums.substring(ge, ge+1);

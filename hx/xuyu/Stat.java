@@ -23,7 +23,7 @@ public interface Stat {
 		
 		public PRINT(String c){
 			content = c.substring(1, c.length() - 1);
-			content = content.replaceAll("¡¾»Ø¡¿", "\n");
+			content = content.replaceAll("ã€å›ã€‘", "\n");
 		}
 		
 		public PRINT(Exp.Value v){

@@ -27,12 +27,12 @@ public class XuyuParser extends Parser {
 		DEDENT=52, COMMENT=53, STRLIT=54, DENT=55, WORD=56, NUM=57, CNFRAC=58, 
 		CNNUM=59, CNBOOL=60, CNCHAR=61, CNNOUN=62, NEWLINE=63, WS=64;
 	public static final String[] tokenNames = {
-		"<INVALID>", "'ё╗'", "'ё╘'", "'╨нн╙'", "K_YI", "'н╙'", "'ят'", "'жз'", "K_RUO", 
-		"'╥ЯтР'", "'тР'", "'рж╩Р'", "'ц©╣╠'", "'╦╢й╪'", "'ж╧'", "'гС'", "'т╩'", "'╣ц'", "'фД'", 
-		"'║╒'", "'╬ы'", "'сзжН'", "'нй'", "'╬ш'", "'Ёи'", "'ж╝'", "'ф╙'", "'пЬ'", "'сжсп'", 
-		"'╫Ьрт'", "'мкрт'", "'╩Щрт'", "'╥жрт'", "'╪срт'", "'╪Урт'", "'Ёкрт'", "'ЁЩрт'", "'сЮрт'", 
-		"'╢Ссз'", "'п║сз'", "'╣хсз'", "'╡╩╢Ссз'", "'╡╩п║сз'", "'╡╩╣хсз'", "'гр'", "'╩Р'", "'╥г'", 
-		"'╟Э╨╛'", "'╫ьвт'", "'╫ьжа'", "'╡╒хК'", "INDENT", "DEDENT", "COMMENT", "STRLIT", 
+		"<INVALID>", "'О╪┬'", "'О╪┴'", "'Д╫∙Д╦╨'", "K_YI", "'Д╦╨'", "'Х╗─'", "'Д╪≈'", "K_RUO", 
+		"'Е░╕Е┬≥'", "'Е┬≥'", "'Ф┼▒Ф┬√'", "'Ф╞▐Е╫⌠'", "'Е╓█Е╖▀'", "'Ф╜╒'", "'Ф╠┌'", "'Ф⌡╟'", "'Е╬≈'", "'Е┘╤'", 
+		"'Ц─│'", "'Д╦╬'", "'Д╨▌Х╞╦'", "'И≈╝'", "'Х│ '", "'Ф┬░'", "'Д╧▀'", "'Г╞┤'", "'Г╩╜'", "'Е▐┬Ф°┴'", 
+		"'Х©⌡Д╩╔'", "'И──Д╩╔'", "'Г╖╞Д╩╔'", "'Е┬├Д╩╔'", "'Е┼═Д╩╔'", "'Е┤▐Д╩╔'", "'Д╧≤Д╩╔'", "'И≥╓Д╩╔'", "'Д╫≥Д╩╔'", 
+		"'Е╓╖Д╨▌'", "'Е╟▐Д╨▌'", "'Г╜┴Д╨▌'", "'Д╦█Е╓╖Д╨▌'", "'Д╦█Е╟▐Д╨▌'", "'Д╦█Г╜┴Д╨▌'", "'Д╦■'", "'Ф┬√'", "'И²·'", 
+		"'Е▄┘Е░╚'", "'Ф┬╙Х┤╙'", "'Ф┬╙Х┤Ё'", "'Е╧╤Е┘╔'", "INDENT", "DEDENT", "COMMENT", "STRLIT", 
 		"DENT", "WORD", "NUM", "CNFRAC", "CNNUM", "CNBOOL", "CNCHAR", "CNNOUN", 
 		"NEWLINE", "WS"
 	};
@@ -1808,7 +1808,7 @@ public class XuyuParser extends Parser {
 			case CNBOOL:
 				{
 				setState(417); ((ValContext)_localctx).CNBOOL = match(CNBOOL);
-				 ((ValContext)_localctx).v =  new Exp.Num( "яТ".equals((((ValContext)_localctx).CNBOOL!=null?((ValContext)_localctx).CNBOOL.getText():null)) ? 1 : 0); 
+				 ((ValContext)_localctx).v =  new Exp.Num( "И≤Ё".equals((((ValContext)_localctx).CNBOOL!=null?((ValContext)_localctx).CNBOOL.getText():null)) ? 1 : 0); 
 				}
 				break;
 			case CNCHAR:

@@ -107,7 +107,7 @@ declare returns [Stat s]
 	;
 
 expr returns [Exp.Value v]
-	: '£¨' a=expr '£©'				{ $v = $a.v; }
+	: 'ï¼ˆ' a=expr 'ï¼‰'				{ $v = $a.v; }
 	| a=expr O_CHENG b=expr		{ $v = new Exp.Eval($a.v ,$b.v, Exp.Eval.MUL);}
 	| a=expr O_CHU 	b=expr		{ $v = new Exp.Eval($a.v ,$b.v, Exp.Eval.DIV);}
 	| a=expr O_YU 	b=expr		{ $v = new Exp.Eval($a.v ,$b.v, Exp.Eval.RMD);}
@@ -134,7 +134,7 @@ expr returns [Exp.Value v]
 val returns [Exp.Value v] 
 	: CNNUM 					{ $v = new Exp.Num(ParserUtil.parseInt($CNNUM.text));}
 	| CNFRAC 
-	| CNBOOL 					{ $v = new Exp.Num( "Ñô".equals($CNBOOL.text) ? 1 : 0); }
+	| CNBOOL 					{ $v = new Exp.Num( "é˜³".equals($CNBOOL.text) ? 1 : 0); }
 	| var						{ $v = new Exp.Var($var.text, xuyu.currentBlock());}
 	| a=val K_QI i=val			{ $v = new Exp.Index( $a.v, $i.v); }
 	| a=val A_ZHI b=var 		{ $v = new Exp.Var($b.text, $a.v); } 
@@ -147,78 +147,78 @@ var : CNCHAR+ | CNNOUN;
 
 //keywords
 
-K_HWEI : 'ºÎÎª';
-K_YI : [ÒÔÓĞ];
-K_WEI : 'Îª';
-K_YAN : 'ÑÔ';
-K_ZHONG : 'ÖÚ';
-K_RUO : 'Èô' | 'ÈçÈô' | 'ÌÈÈô';
-K_FZE : '·ñÔò';
-K_ZE : 'Ôò';
-K_YHUO : 'ÒÖ»ò';
-K_MDANG : 'Ã¿µ±';
-K_FSHI : '¸´Ê¼';
-K_ZHI : 'Ö¹';
-K_QIU : 'Çó';
-K_YUE : 'Ô»';
-K_DE : 'µÃ';
-K_QI : 'Æä';
-K_DUN : '¡¢';
-K_JU2 : '¾Ù';
-K_YZHU : 'ÓÚÖî';
-K_WEN : 'ÎÊ';
-K_JU : '¾Û';
-K_CHENG : '³É';
-A_ZHI : 'Ö®';
-K_PIAN : 'Æª';
-K_XU : 'Ğø';
-K_YYOU : 'ÓÖÓĞ';
+K_HWEI : 'ä½•ä¸º';
+K_YI : [ä»¥æœ‰];
+K_WEI : 'ä¸º';
+K_YAN : 'è¨€';
+K_ZHONG : 'ä¼—';
+K_RUO : 'è‹¥' | 'å¦‚è‹¥' | 'å€˜è‹¥';
+K_FZE : 'å¦åˆ™';
+K_ZE : 'åˆ™';
+K_YHUO : 'æŠ‘æˆ–';
+K_MDANG : 'æ¯å½“';
+K_FSHI : 'å¤å§‹';
+K_ZHI : 'æ­¢';
+K_QIU : 'æ±‚';
+K_YUE : 'æ›°';
+K_DE : 'å¾—';
+K_QI : 'å…¶';
+K_DUN : 'ã€';
+K_JU2 : 'ä¸¾';
+K_YZHU : 'äºè¯¸';
+K_WEN : 'é—®';
+K_JU : 'èš';
+K_CHENG : 'æˆ';
+A_ZHI : 'ä¹‹';
+K_PIAN : 'ç¯‡';
+K_XU : 'ç»­';
+K_YYOU : 'åˆæœ‰';
 
-O_JIN : '½øÒÔ';
-O_TUI : 'ÍËÒÔ';
-O_JI : '»ıÒÔ';
-O_FEN : '·ÖÒÔ';
+O_JIN : 'è¿›ä»¥';
+O_TUI : 'é€€ä»¥';
+O_JI : 'ç§¯ä»¥';
+O_FEN : 'åˆ†ä»¥';
 
-O_JIA : '¼ÓÒÔ';
-O_JIAN : '¼õÒÔ';
-O_CHENG : '³ËÒÔ';
-O_CHU : '³ıÒÔ';
-O_YU : 'ÓàÒÔ';
+O_JIA : 'åŠ ä»¥';
+O_JIAN : 'å‡ä»¥';
+O_CHENG : 'ä¹˜ä»¥';
+O_CHU : 'é™¤ä»¥';
+O_YU : 'ä½™ä»¥';
 
-O_DA : '´óÓÚ';
-O_XIAO : 'Ğ¡ÓÚ';
-O_DENG : 'µÈÓÚ';
-O_BDA : '²»´óÓÚ';
-O_BXIAO : '²»Ğ¡ÓÚ';
-O_BDENG : '²»µÈÓÚ';
+O_DA : 'å¤§äº';
+O_XIAO : 'å°äº';
+O_DENG : 'ç­‰äº';
+O_BDA : 'ä¸å¤§äº';
+O_BXIAO : 'ä¸å°äº';
+O_BDENG : 'ä¸ç­‰äº';
 
-O_QIE : 'ÇÒ';
-O_HUO : '»ò';
-O_FEI : '·Ç';
+O_QIE : 'ä¸”';
+O_HUO : 'æˆ–';
+O_FEI : 'é';
 
-O_BHAN : '°üº¬';
-O_JZI : '½Ø×Ô';
-O_JZHI : '½ØÖÁ';
-O_BRU : '²¢Èë';
+O_BHAN : 'åŒ…å«';
+O_JZI : 'æˆªè‡ª';
+O_JZHI : 'æˆªè‡³';
+O_BRU : 'å¹¶å…¥';
 
 //lexer
 	
 INDENT : ;
 DEDENT : ;
 
-COMMENT : (DENT* '¡­¡­' ~[\n]* )->skip;
-STRLIT : '¡¸' .*? '¡¹';
+COMMENT : (DENT* 'â€¦â€¦' ~[\n]* )->skip;
+STRLIT : 'ã€Œ' .*? 'ã€';
 
 DENT : [\t ];
 
 WORD : [a-zA-Z_]+;
 NUM : [1-9] [0-9]*;
 
-CNFRAC : (CNNUM 'ÓÖ')? CNNUM '·ÖÖ®' CNNUM;
-CNNUM : [ÁãÒ»¶şÈıËÄÎåÁùÆß°Ë¾ÅÊ®°ÙÇ§ÍòÒÚ]+;
-CNBOOL : [ÒõÑô];
+CNFRAC : (CNNUM 'åˆ')? CNNUM 'åˆ†ä¹‹' CNNUM;
+CNNUM : [é›¶ä¸€äºŒä¸‰å››äº”å…­ä¸ƒå…«ä¹åç™¾åƒä¸‡äº¿]+;
+CNBOOL : [é˜´é˜³];
 CNCHAR : '\u4E00'..'\u9FFF';
-CNNOUN : '¡¾' ~[¡¿]*? '¡¿';
+CNNOUN : 'ã€' ~[ã€‘]*? 'ã€‘';
 
 NEWLINE : '\r' ? '\n';
 WS : [ \r\n\t]->skip;
